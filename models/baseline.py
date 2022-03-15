@@ -11,9 +11,9 @@ class Baseline_UNet():
         inputs = Input(shape=self.input_shape)
         x1 = self.EncoderBlock(inputs, self.n_filters, 0)
         x2 = self.EncoderBlock(x1[0], self.n_filters*2, 0)
-        x3= self.EncoderBlock(x2[0], self.n_filters*4, 0)
+        x3 = self.EncoderBlock(x2[0], self.n_filters*4, 0)
         x4 = self.EncoderBlock(x3[0], self.n_filters*8, 0.3)
-        x5= self.EncoderBlock(x4[0], self.n_filters*16, 0.3, False)
+        x5 = self.EncoderBlock(x4[0], self.n_filters*16, 0.3, False)
 
         y1 = self.DecoderBlock(x5[0], x4[1], self.n_filters*8)
         y2 = self.DecoderBlock(y1, x3[1], self.n_filters*4)
@@ -21,7 +21,7 @@ class Baseline_UNet():
         y4 = self.DecoderBlock(y3, x1[1], self.n_filters)
 
         conv = Conv2D(self.n_filters, 3, activation='relu', padding='same')(y4)
-        conv = Conv2D(1, 1, padding='same')(conv)
+        conv = Conv2D(3, 1, padding='same')(conv)
 
         model = Model(inputs=inputs, outputs=conv)
         return model
@@ -50,3 +50,7 @@ class Baseline_UNet():
         conv = Conv2D(n_filters, 3, activation='relu', padding='same', kernel_initializer='HeNormal')(merge)
         conv = Conv2D(n_filters, 3, activation='relu', padding='same', kernel_initializer='HeNormal')(conv)
         return conv
+
+model = Baseline_UNet((128,128,1), 32).build_model()
+print(model.summary())
+print("hello world")
