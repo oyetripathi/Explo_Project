@@ -50,7 +50,3 @@ class Baseline_UNet():
         conv = Conv2D(n_filters, 3, activation='relu', padding='same', kernel_initializer='HeNormal')(merge)
         conv = Conv2D(n_filters, 3, activation='relu', padding='same', kernel_initializer='HeNormal')(conv)
         return conv
-
-model = Baseline_UNet((128,128,1), 32).build_model()
-print(model.summary())
-print("hello world")
